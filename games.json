@@ -1,0 +1,524 @@
+[
+    {
+        "game_name": "Aakash-Abdul-KJ-Subhojeet-ZeroSum",
+        "payoffs": {
+            "Launch": {
+                "Launch": [
+                    1.0,
+                    -1.0
+                ],
+                "DontLaunch": [
+                    2.0,
+                    -2.0
+                ]
+            },
+            "DontLaunch": {
+                "Launch": [
+                    -1.0,
+                    1.0
+                ],
+                "DontLaunch": [
+                    0.0,
+                    0.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Aakash-Abdul-KJ-Subhojeet-GeneralSum",
+        "payoffs": {
+            "AI": {
+                "AI": [
+                    50.0,
+                    50.0
+                ],
+                "IOT": [
+                    100.0,
+                    80.0
+                ]
+            },
+            "IOT": {
+                "AI": [
+                    80.0,
+                    100.0
+                ],
+                "IOT": [
+                    40.0,
+                    40.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Anita-Calarina-Sepehr-ZeroSum",
+        "payoffs": {
+            "StrategyA": {
+                "StrategyC": [
+                    -1.0,
+                    1.0
+                ],
+                "StrategyD": [
+                    -1.0,
+                    1.0
+                ]
+            },
+            "StrategyB": {
+                "StrategyC": [
+                    1.0,
+                    -1.0
+                ],
+                "StrategyD": [
+                    -1.0,
+                    1.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Anita-Calarina-Sepehr-GeneralSum",
+        "payoffs": {
+            "Leave": {
+                "Genre-based": [
+                    0.0,
+                    1.0
+                ],
+                "Artist-based": [
+                    -1.0,
+                    0.0
+                ]
+            },
+            "Stay": {
+                "Genre-based": [
+                    -1.0,
+                    2.0
+                ],
+                "Artist-based": [
+                    1.0,
+                    1.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Bharathvaj-Taylor-Dominik-ZeroSum",
+        "payoffs": {
+            "Bid": {
+                "Bid": [
+                    1.0,
+                    -1.0
+                ],
+                "Withdraw": [
+                    -1.0,
+                    1.0
+                ]
+            },
+            "Withdraw": {
+                "Bid": [
+                    -1.0,
+                    1.0
+                ],
+                "Withdraw": [
+                    0.0,
+                    0.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Bharathvaj-Taylor-Dominik-GeneralSum",
+        "payoffs": {
+            "PickA": {
+                "PickA": [
+                    1.0,
+                    1.0
+                ],
+                "PickB": [
+                    3.0,
+                    2.0
+                ]
+            },
+            "PickB": {
+                "PickA": [
+                    2.0,
+                    3.0
+                ],
+                "PickB": [
+                    0.0,
+                    0.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Revan-Owen-Rohini-ZeroSum",
+        "payoffs": {
+            "Cautious": {
+                "Low": [
+                    -1.0,
+                    1.0
+                ],
+                "High": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Free": {
+                "Low": [
+                    1.0,
+                    -1.0
+                ],
+                "High": [
+                    0.0,
+                    0.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Revan-Owen-Rohini-GeneralSum",
+        "payoffs": {
+            "Cautious": {
+                "Cautious": [
+                    -1.0,
+                    1.0
+                ],
+                "Free": [
+                    -1.0,
+                    -1.0
+                ]
+            },
+            "Free": {
+                "Cautious": [
+                    1.0,
+                    -1.0
+                ],
+                "Free": [
+                    -2.0,
+                    -2.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Alireza-Jordan-Kushagra-Tao-GeneralSum",
+        "payoffs": {
+            "PublishTrue": {
+                "PublishTrue": [
+                    0.0,
+                    0.0
+                ],
+                "PublishFalse": [
+                    -1.0,
+                    1.0
+                ]
+            },
+            "PublishFalse": {
+                "PublishTrue": [
+                    1.0,
+                    -1.0
+                ],
+                "PublishFalse": [
+                    -2.0,
+                    -2.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Alireza-Jordan-Kushagra-Tao-ZeroSum",
+        "payoffs": {
+            "PutEffort": {
+                "GrantSubsidy": [
+                    0.0,
+                    0.0
+                ],
+                "DontGrantSubsidy": [
+                    -2.0,
+                    2.0
+                ]
+            },
+            "DontPutEffort": {
+                "GrantSubsidy": [
+                    3.0,
+                    -3.0
+                ],
+                "DontGrantSubsidy": [
+                    2.0,
+                    -2.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Xinyi-Dagmar-Faisal-Thomas-ZeroSum",
+        "payoffs": {
+            "Normal": {
+                "GearToNormal": [
+                    -100.0,
+                    -100.0
+                ],
+                "GearToWhale": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Whale": {
+                "GearToNormal": [
+                    0.0,
+                    0.0
+                ],
+                "GearToWhale": [
+                    100.0,
+                    -100.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Xinyi-Dagmar-Faisal-Thomas-GeneralSum",
+        "payoffs": {
+            "BuyMicrotransaction": {
+                "MakeGrindWall": [
+                    50.0,
+                    100.0
+                ],
+                "DontMakeGrindWall": [
+                    25.0,
+                    50.0
+                ]
+            },
+            "DontBuyMicrotransaction": {
+                "MakeGrindWall": [
+                    10.0,
+                    0.0
+                ],
+                "DontMakeGrindWall": [
+                    100.0,
+                    25.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Felix-Narun-Betty-Ehsan-ZeroSum",
+        "payoffs": {
+            "Praise": {
+                "Buy": [
+                    1.0,
+                    -1.0
+                ],
+                "Sell": [
+                    -1.0,
+                    1.0
+                ]
+            },
+            "Slam": {
+                "Buy": [
+                    -1.0,
+                    1.0
+                ],
+                "Sell": [
+                    1.0,
+                    -1.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Felix-Narun-Betty-Ehsan-GeneralSum",
+        "payoffs": {
+            "Hold": {
+                "Hold": [
+                    0.0,
+                    0.0
+                ],
+                "Liquidate": [
+                    -10.0,
+                    2.0
+                ]
+            },
+            "Liquidate": {
+                "Hold": [
+                    2.0,
+                    -10.0
+                ],
+                "Liquidate": [
+                    -5.0,
+                    -5.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Gabriel-Larry-Nimish-GeneralSum",
+        "payoffs": {
+            "L": {
+                "L": [
+                    -5.0,
+                    -5.0
+                ],
+                "R": [
+                    2.0,
+                    1.0
+                ]
+            },
+            "R": {
+                "L": [
+                    1.0,
+                    2.0
+                ],
+                "R": [
+                    1.0,
+                    1.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Gabriel-Larry-Nimish-ZeroSum",
+        "payoffs": {
+            "Rock": {
+                "Rock": [
+                    0.0,
+                    0.0
+                ],
+                "Paper": [
+                    -1.0,
+                    1.0
+                ],
+                "Scissors": [
+                    1.0,
+                    -1.0
+                ]
+            },
+            "Paper": {
+                "Rock": [
+                    1.0,
+                    -1.0
+                ],
+                "Paper": [
+                    0.0,
+                    0.0
+                ],
+                "Scissors": [
+                    -1.0,
+                    1.0
+                ]
+            },
+            "Scissors": {
+                "Rock": [
+                    -1.0,
+                    1.0
+                ],
+                "Paper": [
+                    1.0,
+                    -1.0
+                ],
+                "Scissors": [
+                    0.0,
+                    0.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Lucas-William-Wenkai-GeneralSum",
+        "payoffs": {
+            "High": {
+                "High": [
+                    5.0,
+                    5.0
+                ],
+                "Low": [
+                    10.0,
+                    6.0
+                ]
+            },
+            "Low": {
+                "High": [
+                    6.0,
+                    10.0
+                ],
+                "Low": [
+                    3.0,
+                    3.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Lucas-William-Wenkai-ZeroSum",
+        "payoffs": {
+            "High": {
+                "High": [
+                    0.0,
+                    0.0
+                ],
+                "Low": [
+                    1.0,
+                    -1.0
+                ]
+            },
+            "Low": {
+                "High": [
+                    -1.0,
+                    1.0
+                ],
+                "Low": [
+                    0.0,
+                    0.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Neil-Matthew-Yuan-GeneralSum",
+        "payoffs": {
+            "Predictably": {
+                "Predictably": [
+                    0.0,
+                    0.0
+                ],
+                "Aggressively": [
+                    -2.0,
+                    2.0
+                ]
+            },
+            "Aggressively": {
+                "Predictably": [
+                    2.0,
+                    -2.0
+                ],
+                "Aggressively": [
+                    -10.0,
+                    -10.0
+                ]
+            }
+        }
+    },
+    {
+        "game_name": "Neil-Matthew-Yuan-ZeroSum",
+        "payoffs": {
+            "Accelerate": {
+                "Accelerate": [
+                    1.0,
+                    -1.0
+                ],
+                "Decelerate": [
+                    -1.0,
+                    1.0
+                ]
+            },
+            "Decelerate": {
+                "Accelerate": [
+                    -1.0,
+                    1.0
+                ],
+                "Decelerate": [
+                    1.0,
+                    -1.0
+                ]
+            }
+        }
+    }
+]
