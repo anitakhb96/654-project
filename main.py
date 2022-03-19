@@ -1,4 +1,5 @@
 import json
+
 from utils import *
 from scipy.optimize import minimize
 import pandas as pd
@@ -11,7 +12,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 json_file = open(dir_path + '/games.json')
 data = json.load(json_file)
 data =[Game(g) for g in data]
-csvdata= pd.read_csv("dataset.csv")
+csvdata= pd.read_csv(dir_path + "/dataset.csv")
 #print(csvdata['game_name'][0])
 
 
@@ -24,17 +25,12 @@ for g in data:
     for i in range(len(plays)):
         sum_ = sum(plays[i].values())
         plays[i] = {j: plays[i][j]/sum_ for j in plays[i].keys() }
-
-    print(plays)
-
-'''
-g = data[1]
-g.portions = [{"AI" : 13.0/20.0, 'IOT' : 7.0/20.0}, {'AI' : 13.0/23.0, 'IOT' : 10.0/23}]
-#strategy_profile = [{"Launch" : 0.5, 'DontLaunch' : 0.5}, {'Launch' : 0.1, 'DontLaunch' : 0.9}]
-print(qlk(g, [0.46710301, 0.3740573,  0.15883968], [1., 1.00000036, 1.]))
+    g.portions = plays
 
 
+params = k_fold(data[5:], 6)
+print(params)
+print('--------------')
+for g in data[0:5]:
+    print(g.name, ': ' , get_diff(params, g))
 
-#print(g.get_utility(0, strategy_profile))
-#print(qbr(g, 0, strategy_profile, 1))
-'''

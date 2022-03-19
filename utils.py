@@ -49,6 +49,7 @@ def qbr(game, player, strategy_profile, lam):
     action_set = game.action_sets[player]
     for action in action_set:
         action_profile = [{a : 1 if a == action else 0 for a in action_set} if p == player else strategy_profile[p] for p in range(game.n_players)]
+        #print(lam * game.get_utility(player, action_profile), game.name)
         numerator = exp(lam * game.get_utility(player, action_profile))
         utilities.update({action : numerator})
     denom = sum(utilities.values())
@@ -73,6 +74,14 @@ def qlk(game, alpha, lam):
                 res[p][a] += (all_pi[k][p][a] * alpha[k])
     return res
 
+def get_diff(params, game):
+    alpha = params[0 : int(len(params)/2)]
+    lam = params[int(len(params)/2) : ]
+    strategy = qlk(game, alpha, lam)
+    res = [{a : abs(game.portions[p][a] - strategy[p][a]) for a in game.action_sets[p]} for p in range(game.n_players)]
+    return res
+
+
 def qlk_objective_function(params, game):
     alpha = params[0 : int(len(params)/2)]
     lam = params[int(len(params)/2) : ]
@@ -86,7 +95,7 @@ def qlk_objective_function(params, game):
 
 
 def get_params(game):
-    bnds = ((0, 1), (0, 1), (0, 1), (0, None), (0, None), (0, None))
+    bnds = ((0.05, 1), (0.05, 1), (0.05, 1), (0.1, 20), (0.1, 20), (0.1, 20))
     cons = {'type': 'eq', 'fun': lambda x:  x[0] + x[1] + x[2] - 1}
     res = minimize(qlk_objective_function, (0.5, 0.25, 0.25, 1, 1, 1), method='SLSQP', bounds=bnds, constraints=cons, args=(game))
     return res.x
@@ -114,12 +123,12 @@ def k_fold(games, n_params):
         loss /= (len(games)-1)
         k_weights.append(1.0/loss)
         k_params.append(params)
-    sum = [0 for i in range(n_params)]
+    _sum = [0 for i in range(n_params)]
     for i in range(len(k_params)):
-        for j in range(len(sum)):
-            sum[j] += k_params[i][j]*k_weights[i]
+        for j in range(len(_sum)):
+            _sum[j] += k_params[i][j]*k_weights[i]
     
     total_weights = sum(k_weights)
-    avg = [x / total_weights for x in sum]
+    avg = [x / total_weights for x in _sum]
 
     return avg
