@@ -81,3 +81,9 @@ game_id,game_name,player,action,num_plays
 19,Neil-Matthew-Yuan-ZeroSum,1,Decelerate,7
 19,Neil-Matthew-Yuan-ZeroSum,0,Accelerate,10
 19,Neil-Matthew-Yuan-ZeroSum,0,Decelerate,5
+20,3player,0,A,18
+20,3player,0,B,16
+20,3player,1,C,20
+20,3player,1,D,14
+20,3player,2,E,12
+20,3player,2,F,22

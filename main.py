@@ -28,9 +28,9 @@ for g in data:
     g.portions = plays
 
 
-params = k_fold(data[5:], 6)
+params = k_fold(data[:-5], 6)
 print(params)
 print('--------------')
-for g in data[0:5]:
+for g in data[-5:]:
     print(g.name, ': ' , get_diff(params, g))
 

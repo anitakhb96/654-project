@@ -95,7 +95,7 @@ def qlk_objective_function(params, game):
 
 
 def get_params(game):
-    bnds = ((0.05, 1), (0.05, 1), (0.05, 1), (0.1, 20), (0.1, 20), (0.1, 20))
+    bnds = ((0.0, 1), (0.0, 1), (0.0, 1), (0., None), (0.0, None), (0.0, None))
     cons = {'type': 'eq', 'fun': lambda x:  x[0] + x[1] + x[2] - 1}
     res = minimize(qlk_objective_function, (0.5, 0.25, 0.25, 1, 1, 1), method='SLSQP', bounds=bnds, constraints=cons, args=(game))
     return res.x
