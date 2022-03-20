@@ -34,7 +34,6 @@ class Game():
     
     def get_utility(self, player, strategy_profile):
         utility = 0
-        profile_dist = dict()
         for profile in self.outcomes.keys():
             prob = 1
             for p in range(len(profile)):
@@ -49,7 +48,7 @@ def qbr(game, player, strategy_profile, lam):
     action_set = game.action_sets[player]
     for action in action_set:
         action_profile = [{a : 1 if a == action else 0 for a in action_set} if p == player else strategy_profile[p] for p in range(game.n_players)]
-        #print(lam * game.get_utility(player, action_profile), game.name)
+        #print(lam, game.get_utility(player, action_profile), action_profile, game.name)
         numerator = exp(lam * game.get_utility(player, action_profile))
         utilities.update({action : numerator})
     denom = sum(utilities.values())
@@ -74,10 +73,10 @@ def qlk(game, alpha, lam):
                 res[p][a] += (all_pi[k][p][a] * alpha[k])
     return res
 
-def get_diff(params, game):
+def get_diff(params, game, func):
     alpha = params[0 : int(len(params)/2)]
     lam = params[int(len(params)/2) : ]
-    strategy = qlk(game, alpha, lam)
+    strategy = func(game, alpha, lam)
     res = [{a : abs(game.portions[p][a] - strategy[p][a]) for a in game.action_sets[p]} for p in range(game.n_players)]
     return res
 
@@ -94,32 +93,32 @@ def qlk_objective_function(params, game):
     return loss
 
 
-def get_params(game):
-    bnds = ((0.0, 1), (0.0, 1), (0.0, 1), (0., None), (0.0, None), (0.0, None))
+def get_params(game, func):
+    bnds = ((0.001, 1), (0.001, 1), (0.001, 1), (0., None), (0.0, None), (0.0, None))
     cons = {'type': 'eq', 'fun': lambda x:  x[0] + x[1] + x[2] - 1}
-    res = minimize(qlk_objective_function, (0.5, 0.25, 0.25, 1, 1, 1), method='SLSQP', bounds=bnds, constraints=cons, args=(game))
+    res = minimize(objective_function, (0.5, 0.25, 0.25, 1, 1, 1), method='SLSQP', bounds=bnds, constraints=cons, args=(game, func))
     return res.x
 
-def get_loss(params, game):
+def get_loss(params, game, func):
     alpha = params[0 : int(len(params)/2)]
     lam = params[int(len(params)/2) : ]
-    pred = qlk(game, alpha, lam)
+    pred = func(game, alpha, lam)
     loss = 0
     for p in range(game.n_players):
         for a in game.action_sets[p]:
             loss += (game.portions[p][a] - pred[p][a]) ** 2
     return loss  
     
-def k_fold(games, n_params):
+def k_fold(games, n_params, func):
     k_weights = []
     k_params = []
     for i in range(len(games)):
         train = games[i]
-        params = get_params(train)
+        params = get_params(train, func)
         loss = 0
         for j in range (len(games)):
             if i != j:
-                loss += get_loss(params, games[j])
+                loss += get_loss(params, games[j], func)
         loss /= (len(games)-1)
         k_weights.append(1.0/loss)
         k_params.append(params)
@@ -132,3 +131,58 @@ def k_fold(games, n_params):
     avg = [x / total_weights for x in _sum]
 
     return avg
+
+def qch(game, alpha, lam):
+    pi_0 = [{a : 1/len(game.action_sets[p]) for a in game.action_sets[p]} for p in range(game.n_players)]
+    all_pi = [pi_0]
+    for k in range(1, len(alpha)):
+        sp = [{a: 0 for a in game.action_sets[p]} for p in range(game.n_players)]
+        for j in range(len(all_pi)):
+            sp = [{a: (sp[p][a]+ alpha[j]*all_pi[j][p][a])/sum(alpha[:len(all_pi)]) for a in game.action_sets[p]} for p in range(game.n_players)]
+        print("!!!", sp)
+        br = [qbr(game, i, sp, lam[k]) for i in range(game.n_players)]
+        '''
+        for j in range(len(all_pi)):
+            m = qbr(game, i, all_pi[j], lam[k])
+            pi_i_k = {a: (pi_i_k[a]+ m * alpha[j])/sum(alpha[:len(all_pi)]) for a in game.action_sets[i]}
+        '''
+        all_pi.append(br)
+
+    res = [{a : 0 for a in game.action_sets[p]} for p in range(game.n_players)]
+    for k in range(len(all_pi)):
+        for p in range(len(res)):
+            for a in game.action_sets[p]:
+                res[p][a] += (all_pi[k][p][a] * alpha[k])
+    return res
+
+def objective_function(params, game, func):
+    alpha = params[0 : int(len(params)/2)]
+    lam = params[int(len(params)/2) : ]
+    strategy = func(game, alpha, lam)
+    loss = 0
+    for i in range(len(strategy)):
+        p = strategy[i]
+        for a in p.keys():
+            loss += (p[a] - game.portions[i][a]) ** 2
+    return loss
+
+def qch_anita(game, alpha, lam):
+    pi_0 = [{a : 1/len(game.action_sets[p]) for a in game.action_sets[p]} for p in range(game.n_players)]
+    all_pi = [pi_0]
+    for k in range(1, len(alpha)):
+        sp = []
+        for i in range(game.n_players):
+            pi_i_k = {a:0 for a in game.action_sets[i]}
+            for j in range(k):
+                m = qbr(game, i, all_pi[j], lam[k])
+                for a in pi_i_k.keys():
+                    pi_i_k[a] += alpha[j] * m[a] / sum(alpha[:k])
+            sp.append(pi_i_k)
+        all_pi.append(sp)
+
+    res = [{a : 0 for a in game.action_sets[p]} for p in range(game.n_players)]
+    for k in range(len(all_pi)):
+        for p in range(len(res)):
+            for a in game.action_sets[p]:
+                res[p][a] += (all_pi[k][p][a] * alpha[k])
+    return res
