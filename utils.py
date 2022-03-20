@@ -99,6 +99,13 @@ def get_params(game, func):
     res = minimize(objective_function, (0.5, 0.25, 0.25, 1, 1, 1), method='SLSQP', bounds=bnds, constraints=cons, args=(game, func))
     return res.x
 
+def risk(params, games, func):
+    res = 0
+    for g in games:
+        res += get_loss(params, g, func)
+    return res / len(games)
+
+
 def get_loss(params, game, func):
     alpha = params[0 : int(len(params)/2)]
     lam = params[int(len(params)/2) : ]

@@ -27,10 +27,9 @@ for g in data:
         plays[i] = {j: plays[i][j]/sum_ for j in plays[i].keys() }
     g.portions = plays
 
-
-params = k_fold(data[:-5], 6, qlk)
+n_test = 5
+params = k_fold(data[:-n_test], 6, qch)
 print(params)
 print('--------------')
-for g in data[-5:]:
-    print(g.name, ': ' , get_diff(params, g, qlk))
+print(risk(params, data[-n_test:], qch))
 
