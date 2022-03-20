@@ -132,7 +132,7 @@ def k_fold(games, n_params, func):
 
     return avg
 
-def qch(game, alpha, lam):
+def qch_(game, alpha, lam):
     pi_0 = [{a : 1/len(game.action_sets[p]) for a in game.action_sets[p]} for p in range(game.n_players)]
     all_pi = [pi_0]
     for k in range(1, len(alpha)):
@@ -166,7 +166,7 @@ def objective_function(params, game, func):
             loss += (p[a] - game.portions[i][a]) ** 2
     return loss
 
-def qch_anita(game, alpha, lam):
+def qch(game, alpha, lam):
     pi_0 = [{a : 1/len(game.action_sets[p]) for a in game.action_sets[p]} for p in range(game.n_players)]
     all_pi = [pi_0]
     for k in range(1, len(alpha)):
