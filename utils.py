@@ -1,5 +1,7 @@
 from math import exp
+from math import log2, log
 import random
+from statistics import mean
 from scipy.optimize import minimize
 
 
@@ -70,6 +72,7 @@ def qlk(game, alpha, lam):
     for k in range(len(all_pi)):
         for p in range(len(res)):
             for a in game.action_sets[p]:
+                #print(alpha[k])
                 res[p][a] += (all_pi[k][p][a] * alpha[k])
     return res
 
@@ -92,11 +95,14 @@ def qlk_objective_function(params, game):
             loss += (p[a] - game.portions[i][a]) ** 2
     return loss
 
-
-def get_params(game, func):
-    bnds = ((0.001, 1), (0.001, 1), (0.001, 1), (0., None), (0.0, None), (0.0, None))
-    cons = {'type': 'eq', 'fun': lambda x:  x[0] + x[1] + x[2] - 1}
-    res = minimize(objective_function, (0.5, 0.25, 0.25, 1, 1, 1), method='SLSQP', bounds=bnds, constraints=cons, args=(game, func))
+def get_params(game, func, n_params):
+    alpha = ((0.001, 1) for i in range(int(n_params/2)))
+    lam = ((0, 5) for i in range(int(n_params/2)))
+    bnds = tuple(list(alpha) + list(lam))
+    #bnds = ((0.001, 1), (0.001, 1), (0.001, 1), (0., None), (0.0, None), (0.0, None))
+    cons = {'type': 'eq', 'fun': lambda x:  sum([x[i] for i in range(int(len(x) / 2))]) - 1}
+    x0 = tuple([1.0/int(n_params/2.0) for i in range(int(n_params/2.0))] + [1 for i in range(int(n_params/2.0))])
+    res = minimize(objective_function, x0, method='SLSQP', bounds=bnds, constraints=cons, args=(game, func))
     return res.x
 
 def risk(params, games, func):
@@ -115,17 +121,35 @@ def get_loss(params, game, func):
         for a in game.action_sets[p]:
             loss += (game.portions[p][a] - pred[p][a]) ** 2
     return loss  
+
+def KL(params, game, func):
+    alpha = params[0 : int(len(params)/2)]
+    lam = params[int(len(params)/2) : ]
+    pred = func(game, alpha, lam)
+    l = [sum([game.portions[p][a] * log2(game.portions[p][a] / pred[p][a]) for a in game.action_sets[p]]) for p in range(game.n_players)]
+    return l 
+
+def cross_entropy(params, game, func):
+    alpha = params[0 : int(len(params)/2)]
+    lam = params[int(len(params)/2) : ]
+    pred = func(game, alpha, lam)
+    l = [sum([-game.portions[p][a] * log(pred[p][a]) for a in game.action_sets[p]]) for p in range(game.n_players)]
+    return l 
+
+def avg_cross_entropy(params, games, func):
+    return mean(mean(cross_entropy(params, g, func)) for g in games)
     
 def k_fold(games, n_params, func):
     k_weights = []
     k_params = []
     for i in range(len(games)):
         train = games[i]
-        params = get_params(train, func)
+        params = get_params(train, func, n_params)
         loss = 0
         for j in range (len(games)):
             if i != j:
-                loss += get_loss(params, games[j], func)
+                loss += mean(cross_entropy(params, games[j], func))
+                #loss += get_loss(params, games[j], func)
         loss /= (len(games)-1)
         k_weights.append(1.0/loss)
         k_params.append(params)
